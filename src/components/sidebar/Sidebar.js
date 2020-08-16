@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Sidebar.css';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CreateIcon from "@material-ui/icons/Create"
@@ -16,6 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 
 function Sidebar() {
+    const [channels, setChannels] = setState([]);
     return (
         <div className="sidebar">
             <div className="sidebar__header">
