@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Sidebar.css';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import CreateIcon from "@material-ui/icons/Create"
@@ -13,10 +13,26 @@ import AppsIcon from '@material-ui/icons/Apps';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddIcon from '@material-ui/icons/Add';
-
+import db from '../../firebase';
 
 function Sidebar() {
-    const [channels, setChannels] = setState([]);
+    const [ channels, setChannels ] = useState([]);
+
+    useEffect(() => {
+        // Run this code ONCE when the sidebar component loads.  It runs onnly once because
+        // the brackets are empty, if there was a value within them, the function would execute upon
+        // any change of the included variable.
+        db.collection('rooms').onSnapshot(snapshot => (
+            setChannels(
+                snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    name: doc.data().name
+                }))
+            )
+        ));
+       
+
+    }, []);
     return (
         <div className="sidebar">
             <div className="sidebar__header">
@@ -42,9 +58,13 @@ function Sidebar() {
             <hr />
             <SidebarOption Icon={ExpandMoreIcon} title="Channels" />
             <hr/>
-            <SidebarOption Icon={AddIcon} title="Channels" />
-            {/*1:22:42*/}
-            {/* Connect to db and list all the channels */}
+            <SidebarOption Icon={AddIcon} addChannelOption title="Channels" />
+                        
+            {channels.map(channel => (
+                
+                <SidebarOption title={channel.name} id={channel.id } key={channel.id} />
+           
+            ))}
         </div>
     )
 }

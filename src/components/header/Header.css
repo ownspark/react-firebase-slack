@@ -30,6 +30,8 @@
     background-color: transparent;
     border: none;
     min-width: 35vw;
+    color: white;
+    font-weight: 900;
 
 }
 .header__right{
